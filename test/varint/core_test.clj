@@ -5,6 +5,7 @@
 
 (facts
   "about varint"
+
   (facts
     "encoding numbers under 128"
     (encode 1) => "00000001"
@@ -13,4 +14,8 @@
 
   (facts
     "encoding numbers greater or equal than 128"
-    (encode 300) => "1010110000000010"))
+    (encode 300) => "1010110000000010")
+
+  (facts
+    "decoding varints"
+    (decode "1010110000000010") => 300))

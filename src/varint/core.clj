@@ -22,3 +22,13 @@
        to-bytes
        add-most-significat-bits
        (apply str)))
+
+(defn decode [var-int]
+  (->> var-int
+       (partition-all 8 8)
+       (map rest)
+       reverse flatten
+       (map #(Integer/parseInt (str %)))
+       reverse
+       (map-indexed #(* %2 (reduce * (repeat %1 2))))
+       (reduce +)))

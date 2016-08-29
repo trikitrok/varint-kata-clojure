@@ -46,3 +46,43 @@
                    (cons "0" (last bytes)) )))
 (add-msn '("0101100" "0000010"))
 (add-msn '("0000010"))
+(->> "1010110000000010" (partition-all 8 8))
+(->> "1010110000000010" (partition-all 8 8) (map rest))
+(->> "1010110000000010" (partition-all 8 8) (map rest) reverse)
+(->> "1010110000000010" (partition-all 8 8) (map rest) reverse flaten)
+(->> "1010110000000010" (partition-all 8 8) (map rest) reverse flatten)
+(->> "1010110000000010" (partition-all 8 8) (map rest) reverse flatten (map #(Integer/parseInt %))
+(->> "1010110000000010" (partition-all 8 8) (map rest) reverse flatten (map #(Integer/parseInt %)))
+(->> "1010110000000010" (partition-all 8 8) (map rest) reverse flatten (map #(Integer/parseInt (str %))))
+(->> "1010110000000010" (partition-all 8 8) (map rest) reverse flatten (map #(Integer/parseInt (str %))) 
+    reverse (map-indexed #(vector %1 %2)))
+(defn decode [var-int]
+  (->> var-int 
+       (partition-all 8 8) 
+       (map rest) 
+       reverse flatten 
+       (map #(Integer/parseInt (str %)))
+       reverse 
+       (map-indexed #((* %2 (reduce * (repeat 2 %1)))))
+       (reduce +)))
+(decode  "1010110000000010" )
+(defn decode [var-int]
+  (->> var-int
+       (partition-all 8 8)
+       (map rest)
+       reverse flatten
+       (map #(Integer/parseInt (str %)))
+       reverse
+       (map-indexed #((* %2 (reduce * (repeat %1 2)))))
+       (reduce +)))
+(decode  "1010110000000010" )
+(defn decode [var-int]
+  (->> var-int
+       (partition-all 8 8)
+       (map rest)
+       reverse flatten
+       (map #(Integer/parseInt (str %)))
+       reverse
+       (map-indexed #(* %2 (reduce * (repeat %1 2))))
+       (reduce +)))
+(decode  "1010110000000010" )
