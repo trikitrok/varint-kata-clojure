@@ -33,11 +33,14 @@
        reverse
        flatten))
 
+(defn- int-pow [b exp]
+  (reduce * (repeat exp b)))
+
 (defn- bin-str->int [bin-str]
   (->> bin-str
        reverse
        (map #(Integer/parseInt (str %)))
-       (map-indexed #(* %2 (reduce * (repeat %1 2))))
+       (map-indexed #(* %2 (int-pow 2 %1)))
        (reduce +)))
 
 (defn- bytes->varint [bytes]
