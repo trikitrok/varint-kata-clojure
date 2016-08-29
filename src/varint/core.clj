@@ -16,12 +16,8 @@
        (map pad-to-seven)
        (map #(apply str %))))
 
-(defn encode [int-num]
-  (->> int-num
-       Long/toBinaryString
-       bin-str->bytes
-       add-most-significat-bits
-       (apply str)))
+(defn- int->bin-str [num]
+  (Long/toBinaryString num))
 
 (def ^:private drop-most-significat-bits (partial map rest))
 
@@ -42,8 +38,15 @@
        (map-indexed #(* %2 (reduce * (repeat %1 2))))
        (reduce +)))
 
-(defn decode [var-int]
-  (->> var-int
+(defn encode [num]
+  (->> num
+       int->bin-str
+       bin-str->bytes
+       add-most-significat-bits
+       (apply str)))
+
+(defn decode [varint]
+  (->> varint
        varint->bytes
        bytes->bin-str
        bin-str->int))
