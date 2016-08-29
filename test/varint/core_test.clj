@@ -24,7 +24,6 @@
     (decode "1010110000000010") => 300))
 
 (defspec coding-and-decoding
-         1000
-         (prop/for-all
-           [num (gen/large-integer* {:min 0})]
-           (= (-> num encode decode) num)))
+  1000
+  (prop/for-all [num (gen/large-integer* {:min 0})]
+    (= (-> num encode decode) num)))
