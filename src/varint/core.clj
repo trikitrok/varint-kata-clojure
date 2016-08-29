@@ -29,7 +29,7 @@
        drop-most-significat-bits))
 
 (defn- bytes->bin-str [bytes]
-  (->> bytes
+  (-> bytes
        reverse
        flatten))
 
@@ -48,7 +48,7 @@
        (reduce +)))
 
 (defn- bin-str->int [bin-str]
-  (->> bin-str
+  (-> bin-str
        bin-str->bits
        bits->int))
 
@@ -58,13 +58,13 @@
        (apply str)))
 
 (defn encode [num]
-  (->> num
+  (-> num
        int->bin-str
        bin-str->bytes
        bytes->varint))
 
 (defn decode [varint]
-  (->> varint
+  (-> varint
        varint->bytes
        bytes->bin-str
        bin-str->int))
