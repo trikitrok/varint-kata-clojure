@@ -6,12 +6,6 @@
     [clojure.test.check.generators :as gen]
     [clojure.test.check.properties :as prop]))
 
-(defspec coding-and-decoding
-         1000
-         (prop/for-all
-           [num (gen/large-integer* {:min 0})]
-           (= (-> num encode decode) num)))
-
 (facts
   "about varint"
 
@@ -28,3 +22,9 @@
   (facts
     "decoding varints"
     (decode "1010110000000010") => 300))
+
+(defspec coding-and-decoding
+         1000
+         (prop/for-all
+           [num (gen/large-integer* {:min 0})]
+           (= (-> num encode decode) num)))
