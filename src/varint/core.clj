@@ -40,12 +40,16 @@
        (map-indexed #(* %2 (reduce * (repeat %1 2))))
        (reduce +)))
 
+(defn- bytes->varint [bytes]
+  (->> bytes
+       add-most-significat-bits
+       (apply str)))
+
 (defn encode [num]
   (->> num
        int->bin-str
        bin-str->bytes
-       add-most-significat-bits
-       (apply str)))
+       bytes->varint))
 
 (defn decode [varint]
   (->> varint
