@@ -39,12 +39,18 @@
 (defn- char->int [ch]
   (Integer/parseInt (str ch)))
 
-(defn- bin-str->int [bin-str]
-  (->> bin-str
+(def ^:private bin-str->bits (partial map char->int))
+
+(defn bits->int [bits]
+  (->> bits
        reverse
-       (map char->int)
        (map-indexed #(* %2 (int-pow 2 %1)))
        (reduce +)))
+
+(defn- bin-str->int [bin-str]
+  (->> bin-str
+       bin-str->bits
+       bits->int))
 
 (defn- bytes->varint [bytes]
   (->> bytes
