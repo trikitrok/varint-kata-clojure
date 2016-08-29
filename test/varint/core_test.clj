@@ -1,7 +1,16 @@
 (ns varint.core-test
   (:require
     [varint.core :refer :all]
-    [midje.sweet :refer :all]))
+    [midje.sweet :refer :all]
+    [clojure.test.check.clojure-test :refer [defspec]]
+    [clojure.test.check.generators :as gen]
+    [clojure.test.check.properties :as prop]))
+
+(defspec coding-and-decoding
+         1000
+         (prop/for-all
+           [num (gen/large-integer* {:min 0})]
+           (= (-> num encode decode) num)))
 
 (facts
   "about varint"
