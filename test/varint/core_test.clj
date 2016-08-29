@@ -4,5 +4,9 @@
     [midje.sweet :refer :all]))
 
 (facts
-  "about varint encoding"
-  (encode 1) => "00000001")
+  "about varint"
+  (facts
+    "encoding numbers under 128"
+    (encode 1) => "00000001"
+    (encode 8) => "00001000"
+    (encode 127) => "01111111"))

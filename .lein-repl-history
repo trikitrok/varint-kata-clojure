@@ -1,0 +1,3 @@
+(reduce * (repeat 8 2))
+(reduce * (repeat 7 2))
+(Long/toBinaryString 128)
