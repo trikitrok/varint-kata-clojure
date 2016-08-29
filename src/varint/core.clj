@@ -30,8 +30,8 @@
 
 (defn- bytes->bin-str [bytes]
   (-> bytes
-       reverse
-       flatten))
+      reverse
+      flatten))
 
 (defn- int-pow [b exp]
   (reduce * (repeat exp b)))
@@ -49,8 +49,8 @@
 
 (defn- bin-str->int [bin-str]
   (-> bin-str
-       bin-str->bits
-       bits->int))
+      bin-str->bits
+      bits->int))
 
 (defn- bytes->varint [bytes]
   (->> bytes
@@ -59,12 +59,12 @@
 
 (defn encode [num]
   (-> num
-       int->bin-str
-       bin-str->bytes
-       bytes->varint))
+      int->bin-str
+      bin-str->bytes
+      bytes->varint))
 
 (defn decode [varint]
   (-> varint
-       varint->bytes
-       bytes->bin-str
-       bin-str->int))
+      varint->bytes
+      bytes->bin-str
+      bin-str->int))
