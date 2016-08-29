@@ -7,10 +7,13 @@
   (flatten (concat (map #(cons "1" %) (butlast bytes))
                    (cons "0" (last bytes)))))
 
+(defn- partition-in-blocks-of [block-size coll]
+  (partition-all block-size block-size coll))
+
 (defn- bin-str->bytes [bin-str]
   (->> bin-str
        reverse
-       (partition-all 7 7)
+       (partition-in-blocks-of 7)
        (map reverse)
        (map (partial pad-left 7 "0"))
        (map #(apply str %))))
@@ -22,7 +25,7 @@
 
 (defn- varint->bytes [varint]
   (->> varint
-       (partition-all 8 8)
+       (partition-in-blocks-of 8)
        drop-most-significat-bits))
 
 (defn- bytes->bin-str [bytes]
