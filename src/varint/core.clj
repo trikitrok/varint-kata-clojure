@@ -1,8 +1,7 @@
 (ns varint.core)
 
-(defn- pad-to-seven [bin-num]
-  (concat (repeat (- 7 (count bin-num)) "0")
-          bin-num))
+(defn- pad-left [length element bin-num]
+  (concat (repeat (- length (count bin-num)) element) bin-num))
 
 (defn- add-most-significat-bits [bytes]
   (flatten (concat (map #(cons "1" %) (butlast bytes))
@@ -13,7 +12,7 @@
        reverse
        (partition-all 7 7)
        (map reverse)
-       (map pad-to-seven)
+       (map (partial pad-left 7 "0"))
        (map #(apply str %))))
 
 (defn- int->bin-str [num]
@@ -21,8 +20,8 @@
 
 (def ^:private drop-most-significat-bits (partial map rest))
 
-(defn- varint->bytes [var-int]
-  (->> var-int
+(defn- varint->bytes [varint]
+  (->> varint
        (partition-all 8 8)
        drop-most-significat-bits))
 
