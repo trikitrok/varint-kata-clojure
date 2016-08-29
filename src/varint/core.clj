@@ -15,8 +15,7 @@
        reverse
        (partition-in-blocks-of 7)
        (map reverse)
-       (map (partial pad-left 7 "0"))
-       (map #(apply str %))))
+       (map (partial pad-left 7 "0"))))
 
 (defn- int->bin-str [num]
   (Long/toBinaryString num))
