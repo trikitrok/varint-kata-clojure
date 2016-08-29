@@ -36,10 +36,13 @@
 (defn- int-pow [b exp]
   (reduce * (repeat exp b)))
 
+(defn- char->int [ch]
+  (Integer/parseInt (str ch)))
+
 (defn- bin-str->int [bin-str]
   (->> bin-str
        reverse
-       (map #(Integer/parseInt (str %)))
+       (map char->int)
        (map-indexed #(* %2 (int-pow 2 %1)))
        (reduce +)))
 
