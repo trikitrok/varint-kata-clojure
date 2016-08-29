@@ -8,7 +8,7 @@
   (flatten (concat (map #(cons "1" %) (butlast bytes))
                    (cons "0" (last bytes)))))
 
-(defn- to-bytes [bin-str]
+(defn- bin-str->bytes [bin-str]
   (->> bin-str
        reverse
        (partition-all 7 7)
@@ -19,16 +19,31 @@
 (defn encode [int-num]
   (->> int-num
        Long/toBinaryString
-       to-bytes
+       bin-str->bytes
        add-most-significat-bits
        (apply str)))
 
-(defn decode [var-int]
+(def ^:private drop-most-significat-bits (partial map rest))
+
+(defn- varint->bytes [var-int]
   (->> var-int
        (partition-all 8 8)
-       (map rest)
-       reverse flatten
-       (map #(Integer/parseInt (str %)))
+       drop-most-significat-bits))
+
+(defn- bytes->bin-str [bytes]
+  (->> bytes
        reverse
+       flatten))
+
+(defn- bin-str->int [bin-str]
+  (->> bin-str
+       reverse
+       (map #(Integer/parseInt (str %)))
        (map-indexed #(* %2 (reduce * (repeat %1 2))))
        (reduce +)))
+
+(defn decode [var-int]
+  (->> var-int
+       varint->bytes
+       bytes->bin-str
+       bin-str->int))
