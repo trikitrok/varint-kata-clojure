@@ -41,7 +41,7 @@
 
 (def ^:private bin-str->bits (partial map char->int))
 
-(defn bits->int [bits]
+(defn- bits->int [bits]
   (->> bits
        reverse
        (map-indexed #(* %2 (int-pow 2 %1)))
